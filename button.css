@@ -1,0 +1,19 @@
+section{
+  width: 80%;
+  height: 800px;
+  margin: 0 auto;
+  background-image: url("https://images.unsplash.com/photo-1627729115866-6320893092fa?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80");
+  background-size: cover;
+  background-position: right;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+h1{
+  margin: 0 auto;
+  align-content: center;
+  align-items: center;
+  transform: translateX(14cm);
+  color: white;
+  font-size: 100px;
+  
+}

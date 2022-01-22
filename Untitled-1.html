@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Forms</title>
+        <link rel="stylesheet" href="app.css">
+    </head>
+
+    <body>
+        <h1>Race Registration</h1>
+        <form action="/secondPage">
+            <label for="first name">First Name</label>
+            <input type="text" name="username" id="first name" required>
+            <label for="last name">Last Name</label>
+            <input type="text" name="username" id="last name" required>
+            <div>
+                <h2>Select a Race:</h2>
+                <label for="fun">Fun Run 5k</label>
+                <input type="radio" name="length" id="fun" value="fun" checked>
+                <label for="half">Half Marathon</label>
+                <input type="radio" name="length" id="half" value="half">
+                <label for="full">Full Marathon</label>
+                <input type="radio" name="length" id="full" value="full">
+
+
+            </div>
+
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+
+            <div>
+                <label for="age">Select Age Group</label>
+                <select name="age" id="age">
+                    <option value="-18">under 18</option>
+                    <option value="18+">18-30</option>
+                    <option value="30+">30-50</option>
+                    <option value="50+">50+</option>
+                </select>
+            </div>
+            <button>Register!</button>
+
+        </form>
+
+    </body>
+
+
+</html>

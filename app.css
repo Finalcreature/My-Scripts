@@ -1,0 +1,41 @@
+/*No need to touch anything in this file:*/
+img {
+  width: 600px;
+}
+
+#Buttons{
+  margin-top: 40em;
+  border: solid chartreuse;
+  align-items: center;
+  margin-right: 50em;
+
+}
+
+button{
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 100px;
+}
+
+
+body {
+  display: flex;
+
+  justify-content: center;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+}
+
+select{
+  margin-left: 1em;
+  margin-top: 1em;
+  font-size: 20px;
+}
+
+
+
+
+

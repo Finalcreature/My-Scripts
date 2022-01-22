@@ -1,0 +1,60 @@
+h1.title{
+    color: #D11F3F;
+
+}
+     .title:not(:last-child){ 
+    margin-bottom: 0rem;
+}
+    
+
+body {
+    background-color: black;
+    height: 100vh;
+  }
+  h2{
+      color: white;
+  }
+
+
+.column{
+    border-color: brown;
+    border-style: solid;
+    background-color: black;
+
+    
+}
+
+
+.container {
+    display: flex;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    background: #555;
+    position: relative;
+    justify-content: center;
+    margin-top: 20px;
+
+  }
+  
+  .container .center {
+    display: flex;
+    /* padding: 40px; */
+    position: relative; 
+    top: 50%;
+    left: 50%;
+    /* -o-transform: translate(-50%, -50%); */
+    /* -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%); */
+    transform: translate(-50%, -50%);
+    background: #999;
+    justify-content: center;
+    
+  }
+
+  .card{
+   max-width: 20%;
+   margin-left: 25%;
+   margin-top: 20px;
+  }
