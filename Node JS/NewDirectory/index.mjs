@@ -11,4 +11,10 @@ for (let word of string)
     message += `${word} `
 }
 
-console.log(langs.where('3', franc(message)).name)
+
+
+if(franc(message).name) 
+{
+    console.log(langs.where('3', franc(message)).name)
+}
+else console.log('Cannot identify')
