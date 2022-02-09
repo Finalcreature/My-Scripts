@@ -2,6 +2,9 @@ const express = require('express')
 const app = express();
 const path = require('path');
 
+const wineries = require('./data/winery.json')
+
+
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
@@ -13,6 +16,11 @@ app.listen(3000, () =>
 
 app.get('/' ,(req,res) =>{
     res.render('home')
+})
+
+app.get('/wine' ,(req,res) =>{
+    const data = wineries.branches
+    res.render('wineries',{branches : data})
 })
 
 app.get('/checking',(req,res)=>{
