@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { userInfo } = require('os');
 const app = express();
 const path = require('path');
 
@@ -7,6 +8,11 @@ const wineries = require('./data/winery.json')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
+
+app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json)
 
 app.listen(3000, () =>
 {
@@ -39,9 +45,15 @@ app.get('/people',(req,res) =>{
  
     const people = [
         george = {name : 'George', Age: 15},
-         beni = {name : 'Beni', Age: 80},
-         miriam = {name : 'Miriam', Age: 17}
+        beni = {name : 'Beni', Age: 80},
+        miriam = {name : 'Miriam', Age: 17}
     ]
+    res.render('people',{people})
+})
+
+app.post('/people',(req,res) =>{
+ 
+    const people = [    ]
     res.render('people',{people})
 })
 

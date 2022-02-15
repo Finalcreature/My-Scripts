@@ -1,13 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Home Page</h1>
+<%- include('partials/head') %> 
+<%- include('partials/navbar') %> 
+   
+
+    <h1 class="title is-1">Home Page</h1>
     <p>My favorite number is: <%= Math.floor(Math.random() * 10) %> </p>
+
+    <h2 class="title is-2 mt-5">GET Req</h2>  
+    <form action="/people" method="get">
+        <input type="text" name="firstName" placeholder="First Name">
+        <input type="number" name="age" placeholder="Age">
+        <button>Submit</button>
+    </form>
+
+    <h2 class="title is-2 mt-5">POST Req</h2>  
+    <form action="/people" method="post">
+        <input type="text" name="firstName" placeholder="First Name">
+        <input type="number" name="age" placeholder="Age">
+        <button>Submit</button>
+    </form>
+
 </body>
 </html>
