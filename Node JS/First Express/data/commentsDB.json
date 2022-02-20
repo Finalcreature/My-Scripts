@@ -1,0 +1,20 @@
+{
+    "comments" : [
+        {
+            "username" : "Goerge",
+            "comment": "I love this site"
+        },
+        {
+            "username" : "Marie",
+            "comment": "Wow!!!!"
+        },
+        {
+            "username" : "Mike",
+            "comment": "Great job"
+        },
+        {
+            "username" : "Luke",
+            "comment": "I don't get it"
+        }
+    ]
+}

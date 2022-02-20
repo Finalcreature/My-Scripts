@@ -1,9 +1,11 @@
 const express = require('express');
-const { userInfo } = require('os');
+const { userInfo, type } = require('os');
 const app = express();
 const path = require('path');
 
 const wineries = require('./data/winery.json')
+const comments = require('./data/commentsDB.json');
+const { url } = require('inspector');
 
 
 app.set('view engine', 'ejs')
@@ -12,7 +14,10 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(express.urlencoded({ extended: true }))
-app.use(express.json)
+// app.use(express.json)
+
+
+
 
 app.listen(3000, () =>
 {
@@ -22,6 +27,10 @@ app.listen(3000, () =>
 
 app.get('/' ,(req,res) =>{
     res.render('home')
+})
+
+app.get('/form' ,(req,res) =>{
+    res.render('form')
 })
 
 app.get('/wine' ,(req,res) =>{
@@ -41,6 +50,23 @@ function checkIfNumberIsEven()
     return obj
 }
 
+
+app.get('/comments',(req,res)=>{
+   
+    res.render('comments/index',comments)
+})
+
+app.get('/comments/new',(req,res)=>{
+    res.render('comments/new')
+})
+
+app.post('/comments',(req,res)=>{
+    console.log(req.body)
+    const {username,comment} = req.body
+    comments.comments.push({username,comment})
+    res.render('/comments/index',comments)
+})
+
 app.get('/people',(req,res) =>{
  
     const people = [
@@ -52,8 +78,9 @@ app.get('/people',(req,res) =>{
 })
 
 app.post('/people',(req,res) =>{
- 
-    const people = [    ]
+ const {name, age} = req.body
+ const person = {name,age}
+    const people = [ person  ]
     res.render('people',{people})
 })
 
