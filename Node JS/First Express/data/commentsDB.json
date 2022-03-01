@@ -1,22 +1,22 @@
 {
     "comments" : [
         {
-            "id": 1,
+            "id": "1",
             "username" : "Goerge",
             "comment": "I love this site"
         },
         {
-            "id": 2,
+            "id": "2",
             "username" : "Marie",
             "comment": "Wow!!!!"
         },
         {
-            "id": 3,
+            "id": "3",
             "username" : "Mike",
             "comment": "Great job"
         },
         {
-            "id": 4,
+            "id": "4",
             "username" : "Luke",
             "comment": "I don't get it"
         }

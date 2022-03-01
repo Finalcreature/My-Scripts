@@ -7,7 +7,7 @@ const methodOvveride = require('method-override')
 
 
 const wineries = require('./data/winery.json')
-const comments = require('./data/commentsDB.json');
+let comments = require('./data/commentsDB.json');
 const { url } = require('inspector');
 
 
@@ -90,6 +90,13 @@ app.patch('/comments/:id',(req,res)=>{
     const foundComment = comments.comments.find(c => c.id == id.toString())
     const newCommentText = req.body.comment
     foundComment.comment = newCommentText
+    res.redirect('/comments')
+})
+
+app.delete('/comments/:id',(req,res)=>{
+    const {id} = req.params
+    comments.comments = comments.comments.filter(c=> c.id !==id)
+    console.log(comments)
     res.redirect('/comments')
 })
 
