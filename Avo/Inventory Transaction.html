@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="The most awesome Jul's ops system">
+<meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+<title>Avo - Ops System</title>
+<script>
+//<![CDATA[
+window.gon={};gon.default_locale="he";gon.countryCode="IL";gon.migrated_into_new_warehouse_procedures=true;gon.datePickerFormat="dd/mm/yyyy";gon.reactDatePickerFormat="dd/MM/yyyy";gon.apiDateFormat="en-GB";gon.canSetQuantity=true;gon.all_segments=[["Front","front"],["Back","back"],["Wait","wait"],["Supplied","supplied"]];gon.reasons={"check-in":[["רכש","purchasing"],["שיווק","marketing"],["החזרות מלקוחות","customer_return"],["שופר עודפים","shopper_excess"],["צד ג׳ עודפים","third_party_excess"],["טעות אנוש","human_mistake"],["תקלה טכנולוגית","technical_issue"],["החזרות מתוך המחסן","warehouse_returns"],["אחר","other"]],"check-out":[["החזרה לספק - עודפי מלאי","return_excess"],["החזרה לספק - פגום","return_faulty"],["החזרה לספק - פג תוקף","return_expired"],["השמדה - פגום/פג תוקף","faulty"],["תקלה טכנולוגית","technical_issue"],["שיווק","marketing"],["טעות אנוש","human_mistake"],["Growth","growth"],["B2B Happy hour","b2b_happy_hour"],["B2B Avobox","b2b_avobox"],["אחר","other"]],"set-quantity":[["עדכון לאחר שגיאת מלאי","inventory_error"],["תקלה טכנולוגית","technical_issue"],["טעות אנוש","human_mistake"],["אחר","other"],["ספירת מלאי","stock_taking"]]};
+//]]>
+</script>
+
+<link rel="stylesheet" media="screen" href="/assets/base-fc6cccc8583a709392cb58a6619157c8afb4086e4c85ce2051f8dfe1fa61e528.css" />
+
+<link rel="stylesheet" media="screen" href="/assets/inventory_transactions-cf381dae0f41f3f8f9ec51bb152032ecdd95cd77cd20b9186463e725d239382c.css" />
+
+<link rel="stylesheet" media="all" href="/assets/application-011ed51e9e3d6db0b0ff25d2c4014d4290cb0fdeb8230c0311eeec07cc4d3eda.css" id="maincss" />
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="u5X70rmK3uW0uS9kboXgHHfZpWtsfDEp+YOd7h7BprTOmhnVtR6Eq2BrKV/w7Q8S/3raCrbRkMDr/u1jAjzaXg==" />
+<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&amp;key=AIzaSyD8PEiTYRJuckbxwTS_HYxm5kgdAVf7EbU"></script>
+<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+<script src="/packs/js/application-f418fcf6114a5c160f8c.js"></script>
+<link rel="stylesheet" media="screen" href="/packs/css/application-f20354e0.css" />
+<script>
+    document.addEventListener('fullStoryLoaded', function() {
+        FS.identify('2181', {
+            displayName: 'הראל הלפרין',
+            email: 'harel.ha.avo@gmail.com'
+        });
+    });
+
+      Pusher.logToConsole = false;
+      gon.pusher = new Pusher('823511427b0e90c02554', { cluster: 'eu',  forceTLS: true });
+
+    var channel = gon.pusher.subscribe('user-sessions');
+    channel.bind('sign-in', function(data) {
+        console.log('new sign in event');
+        if (data.email == 'harel.ha.avo@gmail.com') {
+            console.log('same email as current user')
+            console.log('my token', '9cfc2e09-9c12-478b-9849-e636437b0876', 'their token',  data.device_token)
+            if (data.device_token != '9cfc2e09-9c12-478b-9849-e636437b0876') {
+                console.log('not same devise token - should redirect', data.device_token);
+                window.location.href = '/users/single_session_sign_out';
+            }
+
+        }
+    });
+  </script>
+</head>
+<body class="layout-fixed">
+<!-- <div id="loading-header">
+<img src="/assets/loading2-cd23371dc1fc05cf06213c2d24c3db61ca41a7d4902c31da33782f13d504110e.gif" /> Loading...
+</div>
+<div id="barcode-success" style="display: none;">
+<div class="alert alert-success">
+<em class="fa fa-check"></em>
+<div id="scanned-item-name"></div>
+<div id="scanned-image"><img></div>
+</div>
+</div>
+<div class="wrapper">
+
+<header class="topnavbar-wrapper">
+
+<nav class="navbar topnavbar tel_aviv_bg_color"> -->
+
+<!-- <div class="navbar-header">
+<a class="navbar-brand" href="/">
+<div class="brand-logo d-none d-md-block">
+<img class="img-fluid avo-logo" src="https://res-2.cloudinary.com/avonow/image/upload/c_scale/v1/AVO/assets/logo/avo_full_light.svg" alt="App Logo">
+</div>
+<div class="brand-logo d-block d-md-none">
+<img class="img-fluid avo-logo" src="https://res-2.cloudinary.com/avonow/image/upload/c_scale/v1/AVO/assets/logo/avo_mini.svg" alt="App Logo">
+</div>
+</a>
+</div> -->
+
+
+<!-- <ul class="navbar-nav mr-auto flex-row">
+<li class="nav-item">
+
+<a class="nav-link d-none d-md-block d-lg-block d-xl-block" href="#" data-trigger-resize="" data-toggle-state="aside-collapsed">
+<em class="fas fa-bars"></em>
+</a>
+
+<a class="nav-link sidebar-toggle d-md-none" href="#" data-toggle-state="aside-toggled" data-no-persist="true">
+<em class="fas fa-bars"></em>
+</a>
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link collapsed" id="user-block-toggle" href="#user-block" data-toggle="collapse" aria-expanded="false">
+<em class="icon-user"></em>
+</a>
+</li>
+
+<li class="nav-item d-none d-md-block" style="margin: auto;">
+<div class="warehouse-title heb">
+Tel Aviv
+</div>
+</li>
+</ul> -->
+
+
+<!-- <ul class="navbar-nav flex-row">
+
+<li class="nav-item">
+<a id="search-top-navbar" class="nav-link" href="#" data-search-open="">
+<em class="icon-magnifier"></em>
+</a>
+</li>
+
+<li class="nav-item d-none d-md-block">
+<a class="nav-link" href="#" data-toggle-fullscreen="">
+<em class="fa fa-expand"></em>
+</a>
+</li>
+
+
+
+</ul>
+
+
+
+<form class="navbar-form" action="/orders/search" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="CJlH8kJwmQCRP7CgahQeXolkIxoBGg4O5IP/lKK8+wn87KC6RGgtJF/iqy4kVy7JJCSr1HA4nT6g6uRmsCqL8w==" />
+<div class="form-group">
+<input class="form-control" type="text" name="search[id]" placeholder="Type and hit enter ...">
+<div class="fa fa-times navbar-form-close" data-search-dismiss=""></div>
+</div>
+<button class="d-none" type="submit">Submit</button>
+</form> 
+
+</nav>
+
+</header>
+
+<aside class="aside-container">
+
+<div class="aside-inner">
+<nav class="sidebar" data-sidebar-anyclick-close="">
+
+<ul class="sidebar-nav">
+
+<li class="has-user-block">
+<div id="user-block" class="collapse">
+<div class="item user-block">
+
+<div class="user-block-picture">
+<div class="user-block-status">
+<img src="https://res.cloudinary.com/avonow/image/upload/v1623913734/Jul/assets/user-icon.png" alt="Avatar" width="60" height="60" class="img-thumbnail rounded-circle" />
+</div>
+</div>
+
+<div class="user-block-info">
+<a class="user-block-name" href="/users/edit">
+<span class="user-block-name">
+הראל הלפרין
+</span>
+</a>
+<span class="user-block-role">
+</span>
+<a rel="nofollow" data-method="delete" href="/users/sign_out">
+<span class="translation_missing" title="translation missing: he.logout">Logout</span>
+</a> </div>
+</div>
+</div>
+</li>
+
+
+<li class="nav-heading">
+<span data-localize="">
+הראל הלפרין
+</span>
+</li>
+<li class="">
+<a href="#dashboards" title="dashboards" data-toggle="collapse">
+<em class="icon-chart"></em>
+<span>Dashboards</span>
+</a>
+<ul id="dashboards" class="sidebar-nav sidebar-subnav collapse ">
+<li class="sidebar-subnav-header">Dashboards</li>
+<li class="ml-3 ">
+<a href="/dashboards/operational" title="Operational Day">
+<em class="fa fas fa-rocket"></em><span>Operational day</span>
+</a>
+</li>
+<li class=" ml-3">
+<a href="/dashboards/metabase/73" title="Dashboard Menu">
+<em class="fas fa-chart-bar">&nbsp;</em><span>
+Dashboard Menu
+</span>
+</a>
+</li>
+<li class=" ml-3">
+<a href="/dashboards/metabase/2" title="Overview">
+<em class="fa fas fa-chart-area">&nbsp;</em><span>
+Overview
+</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="">
+<a href="#orders_overview" title="orders overview" data-toggle="collapse">
+<em class="far fa-calendar"></em>
+<span>Orders overview</span>
+</a>
+<ul id="orders_overview" class="sidebar-nav sidebar-subnav collapse ">
+<li class="sidebar-subnav-header">orders_overview</li>
+<li class="ml-3 ">
+<a href="/orders" title="Dry goods view">
+<em class="fa-1x fas fa-shopping-basket"></em><span>Dry goods view</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/produce" title="Produce view">
+<em class="fas fa-apple-alt"></em><span>Produce view</span>
+ </a>
+</li>
+<li class="ml-3 ">
+<a href='/refrigerated'>
+<em class="fas fa-thermometer-half"></em><span>Refrigerated view</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href='/frozen'>
+<em class="fas fa-snowflake"></em><span>Frozen view</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href='/singles'>
+<em class="fa icon-bag"></em><span>Singles view</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href='/all_orders'>
+<em class="fa-1x fas fa-boxes"></em><span>All orders view</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="">
+<a href="#picking_and_packing" title="dashboards" data-toggle="collapse">
+<em class="fab fa-dropbox"></em>
+<span>Picking & Packing</span>
+</a>
+<ul id="picking_and_packing" class="sidebar-nav sidebar-subnav collapse">
+<li class="sidebar-subnav-header">Picking & Packing</li>
+<li class="ml-3 ">
+<a href="/picking_and_packing" title="Pick & Pack">
+<em class="fa-1x fas fa-box-open"></em><span>Pick & Pack</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/batch_picking_and_packing" title="Batch Pick & Pack">
+<em class="fa-1x fas fa-fighter-jet"></em><span>Batch Pick & Pack</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/cuts/shopper" title="Shopper">
+<em class="icon-basket"></em><span>Shopper</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/cuts/third_parties" title="3RD party">
+<em class="fa-1x fas fa-project-diagram"></em><span>3RD party</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/help_issues" title="Help Center">
+<em class="fa-1x fas fa-life-ring"></em><span>Help Center</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/cuts/missing" title="CS - Missing">
+<em class="fa-1x fas fa-frown"></em><span>Unfulfilled items</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/avobiz_orders" title="Avobiz">
+<em class="fa-1x fas fa-briefcase"></em><span>Avobiz</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="">
+<a href="/staging" title="staging">
+ <em class="fa-1x fas fa-box"></em><span>Staging</span>
+</a>
+</li>
+<li class="">
+<a href="#delivery" title="delivery" data-toggle="collapse">
+<em class="fa-1x fas fa-map-marker-alt"></em>
+<span>Delivery</span>
+</a>
+<ul id="delivery" class="sidebar-nav sidebar-subnav collapse ">
+<li class="sidebar-subnav-header">Delivery</li>
+<li class="ml-3 ">
+<a href="/shippings/zones_summary" title="Zones summary">
+<em class="fa-1x fas fa-th-list"></em><span>Zones summary</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/shippings" title="Shipping">
+<em class="fas fa-truck"></em><span>Shipping</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/shippings?experimental=true" title="ShippingV2">
+<em class="fas fa-radiation"></em><span>Shipping (Testing)</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/cuts/prioritized_zones" title="Zone prioritization">
+<em class="fa-1x fas fa-sort-amount-up"></em><span>Zone prioritization</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="">
+<a href="/products/inventory_procurement" title="BULK SMS">
+<em class="fa-1x fas fa-list-alt"></em><span>Procurement</span>
+</a>
+</li>
+<li class="">
+<a href="#inventory" title="inventory" data-toggle="collapse">
+<em class="fa-1x fas fa-angle-double-right"></em>
+<span>Inventory</span>
+</a>
+<ul id="inventory" class="sidebar-nav sidebar-subnav collapse ">
+<li class="sidebar-subnav-header">Inventory</li>
+<li class="ml-3 ">
+<a href="/inventory_transactions/new" title="Manual transaction">
+<em class="fas fa-plus-circle"></em><span>Inventory transaction</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/inventories/segments" title="BULK transaction">
+<em class="fa-1x fas fa-check-circle"></em><span>Bulk check in</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/inventory/shelver">
+<em class="fas fa-dolly"></em><span>Shelver</span>
+</a>
+</li>
+<li class="ml-3 ">
+ <a href="/inventory/refresher">
+<em class="fas fa-sync-alt"></em><span>Refresher</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/inventory/manual_shelving" title="SKU Search">
+<em class="fa-1x fas fa-plus-circle"></em><span>SKU Search</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/inventory/shelves/bulk_code" title="BULK shelving">
+<em class="fas fa-boxes"></em><span>New bulk shelving</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/cuts/shuk_summary" title="Shuk summary">
+<em class="fas fa-apple-alt"></em><span>Shuk summary</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/inventory/stocktaking" title="Cycle count">
+<em class="fas fa-boxes"></em><span>Cycle count</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="">
+<a href="#utils" title="utils" data-toggle="collapse">
+<em class="fa-1x fas fa-lightbulb"></em>
+<span>Utils</span>
+</a>
+<ul id="utils" class="sidebar-nav sidebar-subnav collapse ">
+<li class="sidebar-subnav-header">Utils</li>
+<li class="ml-3">
+<a href="/utils/sms_load_file" title="BULK SMS">
+<em class="fa-1x fas fa-comment-dots"></em><span>Bulk SMS</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/utils/bulk_whatsapp" title="BULK Whatsapp">
+<em class="fa-1x fab fa-whatsapp"></em><span>Bulk Whatsapp</span>
+</a>
+</li>
+<li class="ml-3">
+<a href="/customers/push_notifications" title="Push Notification">
+<em class="fa-1x fas fa-bullhorn"></em><span>Push Notifications</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/move_orders" title="Users">
+<em class="fas fa-calendar-alt"></em><span>Move Orders</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/scan_logs/new" title="Bags Scanner">
+<em class="fa-1x fas fa-camera-retro"></em><span>Bags Scanner</span>
+ </a>
+</li>
+<li class="ml-3">
+<a href="/qa" title='Reprinting stickers Dry'>
+<em class="fa-1x fas fa-shopping-basket"></em>
+<span>Packaging<br /> management Dry</span>
+</a>
+</li>
+<li class="ml-3">
+<a href="/refrigerated_qa" title="Reprinting stickers Refrigerated">
+<em class="fa-1x fas fa-thermometer-half"></em><span>Packaging
+management<br /> Refrigerated</span>
+</a>
+</li>
+<li class="ml-3 ">
+<a href="/users/search_for_crm" title="Customer orders search">
+<em class="fab fa-searchengin"></em><span>Customer orders search</span>
+</a>
+</li>
+</ul>
+</li>
+<li class="">
+<a href="#system_settings" title="System settings" data-toggle="collapse">
+<em class="fa-1x fas fa-cogs"></em>
+<span>System settings</span>
+</a>
+<ul id="system_settings" class="sidebar-nav sidebar-subnav collapse ">
+<li class="ml-3 ">
+<a href="/users" title="Ops Users">
+<em class="fa-1x fas fa-users"></em><span>Ops Users</span>
+</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="/admin">
+<em class="fas fa-user-lock"></em>
+<span>Admin</span>
+</a>
+</li>
+<li>
+<a href="https://avonow.atlassian.net/servicedesk/customer/portal/1/group/1/create/5" title="Tech Support" target="_blank">
+<em class="fas fa-headset"></em><span>Tech Support</span>
+</a>
+</li>
+</ul>
+
+</nav>
+</div>
+
+</aside> -->
+
+
+
+<section class="section-container">
+
+<!-- <div class="content-wrapper">
+<div class="content-heading">
+New Inventory Transaction
+
+</div> -->
+
+
+<div class="card card-default" data-select2-id="6">
+    <br>
+    <div id="inventory-form" data-select2-id="inventory-form">
+    <form action="create_manualy" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="3WH56NiJQymp1HwXVQYDUiCKjAq3u95+3ZlVIjWa6u+obhvv1B0ZZ30GeizLbuxcqCnza20Wf5fP5CWvKWeWBQ==">
+    <div class="group-row" data-select2-id="41">
+    <div class="label">Product</div>
+    <select class="products-list select2-hidden-accessible" name="inventory_transactions[product_id]" style="width:600px" required="" data-select2-id="1" tabindex="-1" aria-hidden="true"><option value="12239" data-select2-id="21">TEST_NIMI2 - דששג</option></select><span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" data-select2-id="2" style="width: 600px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-inventory_transactionsproduct_id-mv-container"><span class="select2-selection__rendered" id="select2-inventory_transactionsproduct_id-mv-container" role="textbox" aria-readonly="true" title="TEST_NIMI2 - דששג">TEST_NIMI2 - דששג</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+    </div>
+    <div class="group-row">
+
+        <select name="sdd" id="" >
+        <option value="">out</option>
+        <option value="">in</option>
+    </select>
+  
+  
+        <!-- <div class="label">Transaction Type</div>
+    <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+    <input type="radio" class="transaction-type" name="inventory_transactions[type]" value="check-in" required="">
+    <em class="fas fa-upload"></em>
+    Check-In
+    </label>
+    <label class="btn btn-secondary">
+    <input type="radio" class="transaction-type" name="inventory_transactions[type]" value="check-out">
+    <em class="fas fa-download"></em>
+    Check-Out
+    </label>
+    <label class="btn btn-secondary">
+    <input type="radio" name="inventory_transactions[type]" class="transaction-type" value="set-quantity">
+    <em class="fas fa-dot-circle"></em>
+    Set Quantity
+    </label>
+    </div>
+    </div>
+    <div class="group-row">
+    <div class="label">Quantity</div>
+    <input min="0" class="form-control" id="quantity" required="required" type="number" name="inventory_transactions[quantity]">
+    </div>
+    <div class="group-row" id="segment" data-select2-id="segment">
+    <div class="label">Segment</div>
+    <select id="inventory_transactions_segment" name="inventory_transactions[segment]" required="" data-select2-id="inventory_transactions_segment" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true"><option value="wait" data-select2-id="38">Wait</option></select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="4" style="width: 250px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-inventory_transactions_segment-container"><span class="select2-selection__rendered" id="select2-inventory_transactions_segment-container" role="textbox" aria-readonly="true" title="Wait">Wait</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+    </div>
+    <div class="group-row" id="reason">
+    <div class="label">Reason</div>
+    <select id="inventory_transactions_reason" name="inventory_transactions[reason]" required="" data-select2-id="inventory_transactions_reason" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true"><option value="" data-select2-id="39">Pick Reason...</option><option value="purchasing">רכש</option><option value="marketing">שיווק</option><option value="customer_return">החזרות מלקוחות</option><option value="shopper_excess">שופר עודפים</option><option value="third_party_excess">צד ג׳ עודפים</option><option value="human_mistake">טעות אנוש</option><option value="technical_issue">תקלה טכנולוגית</option><option value="warehouse_returns">החזרות מתוך המחסן</option><option value="other">אחר</option></select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="3" style="width: 250px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-inventory_transactions_reason-container"><span class="select2-selection__rendered" id="select2-inventory_transactions_reason-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Choose...</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+    </div>
+    <div class="group-row" id="custom-reason" style="display: none;">
+    <div class="label">Custom Reason</div>
+    <input class="form-control" type="text" name="inventory_transactions[custom_reason]" id="inventory_transactions_custom_reason">
+    </div>
+    <div class="group-row actions" style="margin: 10px 0px;">
+    <input type="submit" name="commit" value="Create Transaction" class="btn btn-primary btn-lg" data-disable-with="Create Transaction">
+    </div>
+    </form>
+    </div>
+    </div> -->
+
+<!-- <footer class="footer-container">
+<span>&copy; 2021 - Avo Operations</span>
+</footer>
+</div> -->
+
+<script src="/assets/base-55e6520abb7702ba51f027d74355befed2a37b18555f755684b101bdeb4cfca4.js"></script>
+
+<script src="/assets/inventory_transactions-5e2836cc168d98ed2e06ffb0538fcaf21fc53a809d936e99914a40463f21e93b.js"></script>
+
+<script src="/assets/application-be818b89717b8e60b5c1c73a0e41656a509f45fee476743769b638916106d09c.js"></script>
+<script type="text/javascript">
+      I18n.locale = "he";
+   </script>
+<div id="print-labels-modal"></div>
+</body>
+</html>

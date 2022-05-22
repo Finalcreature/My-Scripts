@@ -55,7 +55,6 @@ function checkIfNumberIsEven()
     return obj
 }
 
-
 app.get('/comments',(req,res)=>{
    
     res.render('comments/index',comments)
