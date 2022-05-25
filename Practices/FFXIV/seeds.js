@@ -11,6 +11,7 @@ const seedWeapon =[
     {
         name: 'Artemis Bow Zenith',
         damage: 1.00,
+        test: false,
         props:{
             tradable: false,
             unique: true,

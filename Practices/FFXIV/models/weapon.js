@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { boolean } = require('webidl-conversions');
 const weaponSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -8,6 +9,9 @@ const weaponSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 0
+    },
+    test:{
+        type: Boolean
     },
     props:{
         tradable:{

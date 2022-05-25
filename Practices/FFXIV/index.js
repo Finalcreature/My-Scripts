@@ -3,6 +3,10 @@ const app = express();
 const Weapon = require('./models/weapon');
 const path = require('path');
 const mongoose = require('mongoose');
+const { Console } = require('console');
+const methodOverride = require('method-override')
+
+
 
 mongoose.connect('mongodb://localhost:27017/ffxivItems')
 .then(() =>{
@@ -12,10 +16,13 @@ mongoose.connect('mongodb://localhost:27017/ffxivItems')
     console.log('Error')
 })
 
-
+app.use(express.urlencoded({extended: true}))
+app.use(methodOverride('_method'))
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
+
+
 
 
 app.listen(3000, ()=>{
@@ -31,7 +38,6 @@ app.get('/weapons', async (req,res) =>{
 
 app.get('/weapons/:id', async(req,res) =>{
     const {id} = req.params
-    console.log(id)
     const chosenWeapon = await Weapon.findById(id)
     res.render(`details`, {chosenWeapon} )
     
@@ -43,4 +49,16 @@ app.get('/:id/edit', async (req,res)=>{
     res.render('edit',{weapon})
     
 })
+
+app.put(('/weapons/:id'), async (req,res)=>{
+    const {id} = req.params
+    console.log(req.body)
+    const weapon = await Weapon.findByIdAndUpdate(id,req.body,{new: true})
+    console.log(weapon)
+    res.redirect(`/weapons/${weapon.id}`)
+})
+
+// const checkBoxes = document.querySelectorAll('.input')
+
+// console.log(checkBoxes)
 

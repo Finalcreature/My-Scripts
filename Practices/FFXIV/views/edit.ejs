@@ -6,16 +6,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<h1><%= weapon.name  %> </h1>
-<label for="name">Name</label>
-<input id="name" type="text" placeholder="<%= weapon.name %> ">
-<label for="number">Damage</label>
-<input id="number" type="number" placeholder="<%= weapon.name %> ">
-<label for="sellable"></label>
-<select name="sellable" id="sellable">
-    
-</select>
+
 <body>
-    
+    <h1><%= weapon.name  %> </h1>
+
+<form action="/weapons/<%= weapon._id %>?_method=PUT" method="POST">
+<label for="name">Name</label>
+<input name="name" id="name" type="text" value="<%= weapon.name %>" placeholder="<%= weapon.name %> ">
+<label for="damage">Damage</label>
+<input name="damage" id="damage" type="number" value="<%= weapon.damage %>" placeholder="<%= weapon.damage %> ">
+
+<br>
+<label for="test">Test</label>
+<input id="test" type='checkbox' value='1' name='test' onchange="isTest()">
+<input id="testHidden" hidden value='0' name='test' name = "testHidden">
+
+
+<fieldset name="props">
+    <legend>Props</legend>
+    <label for="tradable">tradable</label>
+    <input type="checkbox" name="props{[tradable]}" id="tradable" onchange="changeProps(this)">
+    <label for="unique">unique</label>
+    <input type="checkbox" name="props[{unique}]" id="unique" onchange="changeProps(this)">
+    <label for="sellable">sellable</label>
+    <input type="checkbox" name="props[{sellable}]" id="sellable" onchange="changeProps(this)">
+
+</fieldset>
+<button>Update</button>
+</form>
+<hr>
+<a href="/weapons">All weapon</a>
+
 </body>
 </html>
+
+<script>
+
+const uniqueCheckbox = document.querySelector('#unique')
+const checkBoxes = document.querySelectorAll('input:not([id = unique])[type = checkbox]') //
+const test = document.querySelector('#test')
+
+
+
+ function isTest(){
+    if(document.getElementById("test").checked) {
+    document.getElementById('testHidden').disabled = true;
+}
+ }
+
+isTest()
+
+
+function changeProps(checkbox){
+    if(checkbox === uniqueCheckbox)
+    {
+        for(let cb of checkBoxes)
+        {
+            cb.checked = false
+        }
+    }
+    else {
+        uniqueCheckbox.checked = false
+    }
+}
+
+
+
+</script>
