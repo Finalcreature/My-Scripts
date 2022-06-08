@@ -1,22 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weapons</title>
-</head>
-<body>
-    <ul>
-        <% if(weapons.length != 0) {%> 
-        <% for(let w of weapons) {%> 
-        <li>
-           <h1><%= w.name %> - <a href="/weapons/<%= w.id  %>"  style="font-size: small">w.id</a>  </h1>
-        </li>
-    <% } } else { %> 
-        <h1>Nothing to show</h1>
-    <% } %> 
-    </ul>
-    
-</body>
-</html>
+<% layout('layouts/boilerplate') %> 
+<%- layouts('layouts/navbar') %> 
+
+
+   
+        
+ 
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">DamagePhys</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% if(weapons.length != 0) {%> 
+                <% for(let w of weapons) {%> 
+          <tr>
+            <th><img class="img-thumbnail" src="https://garlandtools.org/files/icons/item/30446.png" alt="" srcset=""></th>
+            <td><a href="/weapons/<%= w.id  %>"  style="font-size: normal"><%= w.Name %></a></td>
+            <td><%= w.DamagePhys %></td>
+            <td><%= w.Description %></td>
+          </tr>
+          <% } } else { %> 
+            <h1>Nothing to show</h1>
+        <% } %> 
+          <tr>
+      </table>
+
+     
