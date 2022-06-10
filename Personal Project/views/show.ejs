@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<% layout('layouts/boilerplate') %> 
+<%- include('layouts/navbar') %> 
 
-    <title><%=  weapon.name  %> </title>
-</head>
-<body>
-    <h1><%=  weapon.name  %> </h1>
-    <form action="/weapons/ <%= weapon.id %>?_method=DELETE " method="POST">
-        <button class="btn btn-danger">Delete</button>
+    <h1><%=  weapon.Name  %> </h1>
+    <p> Damage: <%= weapon.DamagePhys  %> </p>
+    <p>Description: <%= weapon.Description %> </p>
+    <p>Icon path: <%= weapon.Icon  %> </p>
+    <img src="" alt="" srcset="../src/ui/icon/003000/003000.png">
+    <form action="/edit/<%= weapon.id %> ">
+        <button class="btn btn-info">Update</button>
     </form>
-    
-</body>
-</html>
+    <form  action="/weapons/ <%= weapon.id %>?_method=DELETE " method="POST">
+        
+        <button  class="btn btn-danger">Delete</button>
+
+    </form>

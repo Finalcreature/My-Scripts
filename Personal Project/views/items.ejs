@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= item.Name %> </title>
-    
-</head>
-<body>
+<% layout('layouts/boilerplate') %> 
+<%- include('layouts/navbar') %> 
+
     <h1><%= item.Name  %> </h1>
     <ul>
         <li><%= item.DamagePhys  %> </li>
         <li><%= item.Description  %> </li>
         <li><%= item.Icon.slice(3) %> </li>
         <img src="" alt="" srcset="https://garlandtools.org/files/icons/item/30446.png">
-        <img src="../src/ui/icon/<%=item.Icon.slice(3)%>" alt="" srcset="">
+        <img src="" alt="" srcset="/src/ui/icon/030000/030000.png">
         <% for(let [key,value] of Object.entries(item)) {%> 
         <li>
                 <%= key  %>: <%= value  %>
@@ -32,8 +25,5 @@
         <% }  %> 
 
     </ul>
-  
-    
-</body>
-</html>
+
 

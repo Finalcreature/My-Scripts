@@ -1,12 +1,19 @@
 const mongoose = require("mongoose");
 const weaponSchema = new mongoose.Schema({
-  name: {
+  Name: {
     type: String,
     required: true,
   },
-  damage: {
+  DamagePhys: {
     type: Number,
     required: true,
+  },
+  Description: {
+    type: String,
+    default: "No description",
+  },
+  Icon: {
+    type: String,
   },
 });
 
